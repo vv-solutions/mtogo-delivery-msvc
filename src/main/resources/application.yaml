@@ -1,0 +1,93 @@
+quarkus:
+  smallrye-openapi:
+    info-title: delivery-svc
+    auto-add-security-requirement: false
+
+  swagger-ui:
+    always-include: true
+    path: /swagger
+
+  datasource:
+    db-kind: postgresql
+    jdbc:
+      # Is set to 5 as we have 112 connections in total
+      initial-size: 1
+      min-size: 1
+      max-size: 5
+      url: ${MTOGO_DB_BASE_URL}/delivery_svc_db
+    username: ${MTOGO_DB_USERNAME}
+    password: ${MTOGO_DB_PASSWORD}
+
+    transaction-manager:
+      default-transaction-timeout: 300s
+  hibernate-orm:
+    database:
+      generation: update
+
+  rest-client:
+    order-api:
+      url: ${MTOGO_ORDER_SERVICE_URL}
+    customer-api:
+      url: ${MTOGO_CUSTOMER_SERVICE_URL}
+    supplier-api:
+      url: ${MTOGO_SUPPLIER_SERVICE_URL}
+    maps-api:
+      url: ${MTOGO_BING_SERVICE_URL}
+
+delivery:
+  msvc:
+
+    bing:
+      key: ${MTOGO_BING_KEY}
+
+
+    queues:
+      notification:
+        exchange: notification.dx
+        routingKey: notification
+
+      deliveryCreation:
+        exchange: delivery.dx
+        routingKey: delivery.creation
+        queue: delivery.creation.q
+
+      deliveryStatus:
+        exchange: delivery.dx
+        routingKey: delivery.status
+        queue: delivery.status.q
+
+      deliveryInformation:
+        exchange: delivery.out.dx
+        routingKey: delivery.information
+
+
+"%dev":
+  quarkus:
+    log:
+      level: INFO
+      console:
+        json: false
+    rabbitmqclient:
+      virtual-host: ${MTOGO_RABBITMQ_VHOST}
+      username: ${MTOGO_RABBITMQ_USERNAME}
+      password: ${MTOGO_RABBITMQ_PASSWORD}
+      hostname: ${MTOGO_RABBITMQ_HOST}
+      port: ${MTOGO_RABBITMQ_PORT}
+      tls:
+        enabled: false
+    hibernate-orm:
+      database:
+        default-schema: "\"delivery\""
+"%prod":
+  quarkus:
+    rabbitmqclient:
+      virtual-host: ${MTOGO_RABBITMQ_VHOST}
+      username: ${MTOGO_RABBITMQ_USERNAME}
+      password: ${MTOGO_RABBITMQ_PASSWORD}
+      hostname: ${MTOGO_RABBITMQ_HOST}
+      port: ${MTOGO_RABBITMQ_PORT}
+      tls:
+        enabled: false
+    hibernate-orm:
+      database:
+        default-schema: "\"delivery\""
