@@ -19,6 +19,7 @@ import org.jboss.logging.Logger;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.ExecutionException;
 
 @ApplicationScoped
 @UnlessBuildProfile("test")
@@ -94,11 +95,16 @@ public class MessageServiceImpl implements MessageService {
                     // enrich with order data
                     deliveryFacade.enrichWithOrderData(delivery);
 
-                    // Enrich with customer address
-                    deliveryFacade.enrichWithCustomerAddress(delivery);
+                    // Enrich with customer address and supplier address
+                    try {
+                        deliveryFacade.enrichWithCustomerAddress(delivery);
+                        deliveryFacade.enrichWithSupplierAddress(delivery);
+                    } catch (ExecutionException e) {
+                        throw new RuntimeException(e);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
 
-                    // Enrich with supplier address
-                    deliveryFacade.enrichWithSupplierAddress(delivery);
 
                     // enrich with estimated delivery time
                     deliveryFacade.enrichWithDeliveryEstimate(delivery);

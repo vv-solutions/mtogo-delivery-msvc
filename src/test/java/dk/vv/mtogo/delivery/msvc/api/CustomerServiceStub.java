@@ -1,14 +1,13 @@
 package dk.vv.mtogo.delivery.msvc.api;
 
-import dk.vv.mtogo.delivery.msvc.dtos.AddressDTO;
+import dk.vv.common.data.transfer.objects.common.AddressDTO;
 import io.quarkus.test.Mock;
 import jakarta.enterprise.context.ApplicationScoped;
-import org.eclipse.microprofile.rest.client.inject.RestClient;
+
 
 @Mock
-@RestClient
 @ApplicationScoped
-public class CustomerServiceMock implements CustomerService{
+public class CustomerServiceStub implements CustomerService{
     @Override
     public AddressDTO getAddressById(int addressId) {
         return new AddressDTO(){{

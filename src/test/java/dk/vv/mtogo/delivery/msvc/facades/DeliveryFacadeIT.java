@@ -10,6 +10,8 @@ import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.concurrent.ExecutionException;
+
 @QuarkusTest
 class DeliveryFacadeIT {
 
@@ -56,7 +58,7 @@ class DeliveryFacadeIT {
     }
 
     @Test
-    void when_enrich_with_customer_address_delivery_should_have_customer_address(){
+    void when_enrich_with_customer_address_delivery_should_have_customer_address() throws ExecutionException, InterruptedException {
 
         //Arrange
 
@@ -74,7 +76,7 @@ class DeliveryFacadeIT {
 
 
     @Test
-    void when_enrich_with_supplier_address_delivery_should_have_supplier_address(){
+    void when_enrich_with_supplier_address_delivery_should_have_supplier_address() throws ExecutionException, InterruptedException {
 
 
         //Arrange

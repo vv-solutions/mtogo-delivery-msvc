@@ -27,12 +27,16 @@ quarkus:
   rest-client:
     order-api:
       url: ${MTOGO_ORDER_SERVICE_URL}
-    customer-api:
-      url: ${MTOGO_CUSTOMER_SERVICE_URL}
     supplier-api:
       url: ${MTOGO_SUPPLIER_SERVICE_URL}
     maps-api:
       url: ${MTOGO_BING_SERVICE_URL}
+
+  smallrye-graphql-client:
+    customer-api:
+      url: ${MTOGO_CUSTOMER_SERVICE_URL}/graphql
+    supplier-api:
+      url: ${MTOGO_SUPPLIER_SERVICE_URL}/graphql
 
 delivery:
   msvc:

@@ -186,48 +186,4 @@ public class Delivery {
         this.deliveryTimeEstimate = deliveryTimeEstimate;
     }
 
-    /*
-
-    flow:
-
-    1. receive info about delivery from order creation mediator.
-
-    2. fetch address customer and restaurant.
-
-    3. bing maps api
-
-    4. save delivery status - ongoing.
-
-    5. inform courier svc with pickup time and adresses and time estimate for route
-
-
-   done
-
-   ----------------
-   listen for order picked up_
-
-   send notification svc -- delivery in progress
-
-   update delivery status - in progress
-
-
-   -------
-
-   listen for finished deliveries:
-
-    get event from queue:
-
-    inform notification service about delivery done, feedback type thing.
-
-    update delivery status -- done
-
-    done
-
-    ------------
-
-
-
-
-     */
-
 }
