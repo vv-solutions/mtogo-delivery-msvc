@@ -1,6 +1,6 @@
 package dk.vv.mtogo.delivery.msvc.pojos;
 
-import dk.vv.mtogo.delivery.msvc.dtos.DeliveryDTO;
+import dk.vv.common.data.transfer.objects.delivery.DeliveryDTO;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 

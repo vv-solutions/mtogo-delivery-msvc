@@ -1,7 +1,7 @@
 package dk.vv.mtogo.delivery.msvc.facades;
 
 
-import dk.vv.mtogo.delivery.msvc.dtos.DeliveryDTO;
+import dk.vv.common.data.transfer.objects.delivery.DeliveryDTO;
 import dk.vv.mtogo.delivery.msvc.pojos.Delivery;
 import dk.vv.mtogo.delivery.msvc.repositories.DeliveryRepository;
 import io.quarkus.test.junit.QuarkusTest;

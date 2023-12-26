@@ -2,16 +2,15 @@ package dk.vv.mtogo.delivery.msvc.facades;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dk.vv.common.data.transfer.objects.Notification.NotificationDTO;
 import dk.vv.common.data.transfer.objects.common.AddressDTO;
+import dk.vv.common.data.transfer.objects.delivery.DeliveryDTO;
 import dk.vv.common.data.transfer.objects.order.OrderDTO;
 import dk.vv.mtogo.delivery.msvc.Configuration;
 import dk.vv.mtogo.delivery.msvc.api.*;
-import dk.vv.mtogo.delivery.msvc.dtos.DeliveryDTO;
-import dk.vv.mtogo.delivery.msvc.dtos.NotificationDTO;
 import dk.vv.mtogo.delivery.msvc.enums.DeliveryStatus;
 import dk.vv.mtogo.delivery.msvc.pojos.Delivery;
 import dk.vv.mtogo.delivery.msvc.repositories.DeliveryRepository;
-import io.smallrye.graphql.client.GraphQLClient;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.core.Response;
