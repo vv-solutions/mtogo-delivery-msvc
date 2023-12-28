@@ -2,10 +2,9 @@ package dk.vv.mtogo.delivery.msvc.message;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.rabbitmq.client.*;
-import dk.vv.common.data.transfer.objects.order.OrderDTO;
+import dk.vv.common.data.transfer.objects.Notification.NotificationDTO;
+import dk.vv.common.data.transfer.objects.delivery.DeliveryDTO;
 import dk.vv.mtogo.delivery.msvc.Configuration;
-import dk.vv.mtogo.delivery.msvc.dtos.DeliveryDTO;
-import dk.vv.mtogo.delivery.msvc.dtos.NotificationDTO;
 import dk.vv.mtogo.delivery.msvc.enums.DeliveryStatus;
 import dk.vv.mtogo.delivery.msvc.facades.DeliveryFacade;
 import io.quarkiverse.rabbitmqclient.RabbitMQClient;
@@ -19,6 +18,7 @@ import org.jboss.logging.Logger;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.ExecutionException;
 
 @ApplicationScoped
 @UnlessBuildProfile("test")
@@ -94,11 +94,16 @@ public class MessageServiceImpl implements MessageService {
                     // enrich with order data
                     deliveryFacade.enrichWithOrderData(delivery);
 
-                    // Enrich with customer address
-                    deliveryFacade.enrichWithCustomerAddress(delivery);
+                    // Enrich with customer address and supplier address
+                    try {
+                        deliveryFacade.enrichWithCustomerAddress(delivery);
+                        deliveryFacade.enrichWithSupplierAddress(delivery);
+                    } catch (ExecutionException e) {
+                        throw new RuntimeException(e);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
 
-                    // Enrich with supplier address
-                    deliveryFacade.enrichWithSupplierAddress(delivery);
 
                     // enrich with estimated delivery time
                     deliveryFacade.enrichWithDeliveryEstimate(delivery);

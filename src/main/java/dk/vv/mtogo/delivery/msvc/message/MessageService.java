@@ -1,8 +1,7 @@
 package dk.vv.mtogo.delivery.msvc.message;
 
-import dk.vv.common.data.transfer.objects.order.OrderDTO;
-import dk.vv.mtogo.delivery.msvc.dtos.DeliveryDTO;
-import dk.vv.mtogo.delivery.msvc.dtos.NotificationDTO;
+import dk.vv.common.data.transfer.objects.Notification.NotificationDTO;
+import dk.vv.common.data.transfer.objects.delivery.DeliveryDTO;
 import io.quarkus.runtime.StartupEvent;
 import jakarta.enterprise.event.Observes;
 

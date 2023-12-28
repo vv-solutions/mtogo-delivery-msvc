@@ -2,15 +2,12 @@ package dk.vv.mtogo.delivery.msvc.facades;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dk.vv.common.data.transfer.objects.Notification.NotificationDTO;
+import dk.vv.common.data.transfer.objects.common.AddressDTO;
+import dk.vv.common.data.transfer.objects.delivery.DeliveryDTO;
 import dk.vv.common.data.transfer.objects.order.OrderDTO;
 import dk.vv.mtogo.delivery.msvc.Configuration;
-import dk.vv.mtogo.delivery.msvc.api.CustomerService;
-import dk.vv.mtogo.delivery.msvc.api.MapsService;
-import dk.vv.mtogo.delivery.msvc.api.OrderService;
-import dk.vv.mtogo.delivery.msvc.api.SupplierService;
-import dk.vv.mtogo.delivery.msvc.dtos.AddressDTO;
-import dk.vv.mtogo.delivery.msvc.dtos.DeliveryDTO;
-import dk.vv.mtogo.delivery.msvc.dtos.NotificationDTO;
+import dk.vv.mtogo.delivery.msvc.api.*;
 import dk.vv.mtogo.delivery.msvc.enums.DeliveryStatus;
 import dk.vv.mtogo.delivery.msvc.pojos.Delivery;
 import dk.vv.mtogo.delivery.msvc.repositories.DeliveryRepository;
@@ -18,6 +15,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
+
+import java.util.concurrent.ExecutionException;
 
 @ApplicationScoped
 public class DeliveryFacade {
@@ -35,7 +34,7 @@ public class DeliveryFacade {
 
     private final ObjectMapper mapper = new ObjectMapper();
 
-    public DeliveryFacade(DeliveryRepository deliveryRepository, @RestClient OrderService orderService,@RestClient CustomerService customerService,@RestClient SupplierService supplierService, Configuration configuration, @RestClient MapsService mapsService) {
+    public DeliveryFacade(DeliveryRepository deliveryRepository, @RestClient OrderService orderService, CustomerService customerService, SupplierService supplierService, Configuration configuration, @RestClient MapsService mapsService) {
         this.repository = deliveryRepository;
         this.orderService = orderService;
         this.customerService = customerService;
@@ -62,7 +61,7 @@ public class DeliveryFacade {
         return deliveryDTO;
     }
 
-    public DeliveryDTO enrichWithCustomerAddress(DeliveryDTO deliveryDTO) {
+    public DeliveryDTO enrichWithCustomerAddress(DeliveryDTO deliveryDTO) throws ExecutionException, InterruptedException {
 
         AddressDTO addressDTO = customerService.getAddressById(deliveryDTO.getCustomerAddressId());
 
@@ -76,11 +75,10 @@ public class DeliveryFacade {
 
         deliveryDTO.setCustomerAddress(sb.toString());
 
-//        deliveryDTO.setCustomerAddress("Ulrikkenborg Alle 33, 2800 kgs. Lyngby");
         return deliveryDTO;
     }
 
-    public DeliveryDTO enrichWithSupplierAddress(DeliveryDTO deliveryDTO) {
+    public DeliveryDTO enrichWithSupplierAddress(DeliveryDTO deliveryDTO) throws ExecutionException, InterruptedException {
 
         AddressDTO addressDTO = supplierService.getAddressById(deliveryDTO.getSupplierId());
 
@@ -93,7 +91,6 @@ public class DeliveryFacade {
 
         deliveryDTO.setSupplierAddress(sb.toString());
 
-//        deliveryDTO.setSupplierAddress("Skottegården 37, 2770 Kastrup");
 
         return deliveryDTO;
     }
