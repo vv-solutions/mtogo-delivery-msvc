@@ -13,3 +13,5 @@ You can run your application in dev mode that enables live coding using:
 
 ### About
 This service is used to handle deliveries, and to make an estimation on the delivery time from the kitchen to the customer. 
+
+![Hexagonal-architecture.png](images%2FHexagonal-architecture.png)
